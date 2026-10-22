@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APK Gate</title>
+<meta name="description" content="Blockchain quorum verification for Android APKs. Prototype for the paper When a Valid Signature Lies.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <h1>APK Gate</h1>
+    <p>An Android app is installed only when enough independent builders agree on it, on a blockchain.</p>
+  </div>
+  <div class="chain" id="chainStatus">Starting local chain...</div>
+</header>
+
+<main>
+  <section class="gate" aria-labelledby="gateTitle">
+    <h2 id="gateTitle">Install gate</h2>
+    <label class="drop" id="drop">
+      <input type="file" id="file" accept=".apk" hidden>
+      <span class="drop-main">Drop an APK here or click to choose one</span>
+      <span class="drop-sub">The file is read in your browser only. Nothing is uploaded.</span>
+    </label>
+    <button class="link" id="useDemo">Use the demo APK instead</button>
+
+    <dl class="facts" id="facts" hidden>
+      <div><dt>Package</dt><dd id="fPkg"></dd></div>
+      <div><dt>Version code</dt><dd id="fVer"></dd></div>
+      <div><dt>Signing schemes</dt><dd id="fSch"></dd></div>
+      <div><dt>Size</dt><dd id="fSize"></dd></div>
+      <div class="wide"><dt>Content digest D</dt><dd class="hash" id="fD"></dd></div>
+      <div class="wide"><dt>Certificate hash C</dt><dd class="hash" id="fC"></dd></div>
+      <div class="wide" id="fNoteRow" hidden><dt>Note</dt><dd id="fNote"></dd></div>
+    </dl>
+
+    <ol class="checks" id="checks" hidden>
+      <li data-k="1">App is registered</li>
+      <li data-k="2">Signer matches</li>
+      <li data-k="3">Release is not revoked</li>
+      <li data-k="4">Version is not below the floor</li>
+      <li data-k="5">At least k builders agree on D</li>
+    </ol>
+    <div class="verdict" id="verdict" hidden></div>
+    <button class="primary" id="verifyBtn" hidden>Check this APK</button>
+  </section>
+
+  <section class="panel" aria-labelledby="flowTitle">
+    <h2 id="flowTitle">Release this APK</h2>
+    <p class="hint">Do these in order once an APK is loaded. Each button sends a real transaction to the contract.</p>
+    <ol class="steps">
+      <li>
+        <div><strong>Developer registers the app</strong><span>Builders B1, B2, B3. Threshold k = 2.</span></div>
+        <button id="regBtn" disabled>Register</button>
+      </li>
+      <li>
+        <div><strong>Builders vote for this build</strong><span>Each builder sends digest D once for this version.</span></div>
+        <div class="btns"><button data-b="B1" class="voteBtn" disabled>B1 votes</button><button data-b="B2" class="voteBtn" disabled>B2 votes</button><button data-b="B3" class="voteBtn" disabled>B3 votes</button></div>
+      </li>
+      <li>
+        <div><strong>Check the APK</strong><span>Runs the five checks above with a free read-only call.</span></div>
+        <button id="verify2" disabled>Check</button>
+      </li>
+    </ol>
+  </section>
+
+  <section class="panel" aria-labelledby="labTitle">
+    <h2 id="labTitle">Attack lab</h2>
+    <p class="hint">Each attack runs against the APK you loaded and shows what the gate decides.</p>
+    <ul class="attacks">
+      <li><div><strong>Build server hacked</strong><span>B3 is compromised and votes for a backdoored build. The file carries the real certificate.</span></div><button data-a="build" class="atk" disabled>Run</button></li>
+      <li><div><strong>Signing key stolen</strong><span>The attacker injects code and signs with the real key. No builder voted for it.</span></div><button data-a="key" class="atk" disabled>Run</button></li>
+      <li><div><strong>Repackaged app</strong><span>Injected code, re-signed with the attacker's own key (certificate swap is simulated).</span></div><button data-a="repack" class="atk" disabled>Run</button></li>
+      <li><div><strong>Downgrade</strong><span>The developer raises the minimum version above this one.</span></div><button data-a="floor" class="atk" disabled>Run</button></li>
+      <li><div><strong>Revoked release</strong><span>The developer revokes this version, then a user tries to install it. Run this last.</span></div><button data-a="revoke" class="atk" disabled>Run</button></li>
+      <li><div><strong>Outsider tries to vote</strong><span>An account that is not a builder sends a vote.</span></div><button data-a="outsider" class="atk" disabled>Run</button></li>
+    </ul>
+    <button class="link" id="resetBtn">Reset the chain and start again</button>
+  </section>
+
+  <section class="panel ledger" aria-labelledby="ledgerTitle">
+    <h2 id="ledgerTitle">Ledger</h2>
+    <table>
+      <thead><tr><th>Block</th><th>From</th><th>Action</th><th>Gas</th><th>Result</th></tr></thead>
+      <tbody id="ledger"></tbody>
+    </table>
+  </section>
+</main>
+
+<footer>
+  <p>Prototype for the paper "When a Valid Signature Lies: Blockchain Quorum Verification Against Signed Malware in Android Apps", Jatin Kumar Singh, The NorthCap University. The real ReleaseRegistry contract runs on a private Ethereum chain inside this page (ethereumjs). No wallet and no real coins are used. Demo APK from the androguard test suite (Apache 2.0).</p>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>

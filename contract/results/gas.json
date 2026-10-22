@@ -1,0 +1,14 @@
+{
+  "deploy": 756689,
+  "registerApp": {
+    "3": 163213,
+    "5": 210119,
+    "7": 257025
+  },
+  "attestFirst": 72262,
+  "attestSecond": 55162,
+  "attestThird": 72250,
+  "revoke": 48116,
+  "raiseFloor": 29119,
+  "verifyEstimate": 34508
+}

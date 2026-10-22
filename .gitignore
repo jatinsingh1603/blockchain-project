@@ -1,0 +1,7 @@
+node_modules/
+build/
+artifacts/
+cache/
+__pycache__/
+*.png
+!web/public/**/*.png
