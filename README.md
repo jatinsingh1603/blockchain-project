@@ -27,11 +27,20 @@ The attack lab shows what happens when:
 - a revoked release is installed,
 - an outsider tries to vote.
 
+## Android app
+
+`mobile/` wraps the same demo as an Android app (Capacitor). It adds one phone-only feature: **check an app that is already installed on the phone**. A small read-only native plugin (`InstalledAppsPlugin.java`) lists the installed apps and passes the chosen app's APK file to the gate, which reads its package name, version, certificate and digest and runs the five checks.
+
+Download: [APK-Gate.apk](https://blockchain-project.pages.dev/download/APK-Gate.apk) (Android 6.0 or newer). You may need to allow installs from your browser.
+
+The app asks for `QUERY_ALL_PACKAGES` only to show the list of installed apps. It never installs, changes or removes anything, and nothing leaves the phone.
+
 ## Repository layout
 
 ```
 contract/   Solidity contract, Hardhat experiment script, Python digest tool, measured results
 web/        Browser demo (src/ is the source, public/ is the deployable site)
+mobile/     Android app (Capacitor) built from the same web code
 diagrams/   Architecture and verification flow diagrams (draw.io)
 ```
 
