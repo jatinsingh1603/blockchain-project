@@ -1,0 +1,79 @@
+[
+  {
+    "id": "S1",
+    "name": "Clean release v5, 2 of 3 builders agree",
+    "expected": "OK",
+    "got": "OK",
+    "pass": true
+  },
+  {
+    "id": "S2",
+    "name": "Build server compromise: backdoored v5 signed with real key, 1 of 3 builders",
+    "expected": "QUORUM_NOT_REACHED",
+    "got": "QUORUM_NOT_REACHED",
+    "pass": true
+  },
+  {
+    "id": "S3",
+    "name": "Stolen signing key: attacker signs own build, no builder attested it",
+    "expected": "QUORUM_NOT_REACHED",
+    "got": "QUORUM_NOT_REACHED",
+    "pass": true
+  },
+  {
+    "id": "S4",
+    "name": "Repackaged app: injected code, re-signed with attacker key",
+    "expected": "SIGNER_MISMATCH",
+    "got": "SIGNER_MISMATCH",
+    "pass": true
+  },
+  {
+    "id": "S5",
+    "name": "Revoked release v4",
+    "expected": "REVOKED",
+    "got": "REVOKED",
+    "pass": true
+  },
+  {
+    "id": "S6",
+    "name": "Downgrade to old v3 below floor",
+    "expected": "BELOW_VERSION_FLOOR",
+    "got": "BELOW_VERSION_FLOOR",
+    "pass": true
+  },
+  {
+    "id": "S7",
+    "name": "Unknown package",
+    "expected": "UNKNOWN_APP",
+    "got": "UNKNOWN_APP",
+    "pass": true
+  },
+  {
+    "id": "S8",
+    "name": "Non-builder tries to attest",
+    "expected": "REVERT",
+    "got": "REVERT",
+    "pass": true
+  },
+  {
+    "id": "S9",
+    "name": "Builder tries to vote twice for same version",
+    "expected": "REVERT",
+    "got": "REVERT",
+    "pass": true
+  },
+  {
+    "id": "S10",
+    "name": "Non-owner tries to revoke a release",
+    "expected": "REVERT",
+    "got": "REVERT",
+    "pass": true
+  },
+  {
+    "id": "S11",
+    "name": "Owner tries to lower the version floor",
+    "expected": "REVERT",
+    "got": "REVERT",
+    "pass": true
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "machine": "x86_64, Python 3.13.16, 2 vCPU (cloud sandbox)",
+  "correctness": {
+    "unsigned_equals_signed_by_A": true,
+    "signed_by_A_equals_signed_by_B": true,
+    "one_changed_byte_changes_digest": true
+  },
+  "timing": [
+    {
+      "size_mb": 5,
+      "median_ms": 21.0,
+      "min_ms": 14.2,
+      "max_ms": 25.8
+    },
+    {
+      "size_mb": 25,
+      "median_ms": 68.3,
+      "min_ms": 67.4,
+      "max_ms": 74.7
+    },
+    {
+      "size_mb": 50,
+      "median_ms": 187.7,
+      "min_ms": 167.8,
+      "max_ms": 193.2
+    },
+    {
+      "size_mb": 100,
+      "median_ms": 391.4,
+      "min_ms": 334.8,
+      "max_ms": 423.7
+    }
+  ]
+}
