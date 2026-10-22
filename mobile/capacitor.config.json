@@ -1,0 +1,9 @@
+{
+  "appId": "in.ncu.apkgate",
+  "appName": "APK Gate",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": false,
+    "adjustMarginsForEdgeToEdge": "force"
+  }
+}

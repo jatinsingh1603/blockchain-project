@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">APK Gate</string>
+    <string name="title_activity_main">APK Gate</string>
+    <string name="package_name">in.ncu.apkgate</string>
+    <string name="custom_url_scheme">in.ncu.apkgate</string>
+</resources>

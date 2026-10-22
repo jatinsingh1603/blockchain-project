@@ -182,4 +182,42 @@ $("resetBtn").addEventListener("click", () => guarded(async () => {
   resetChecks(); $("verdict").hidden = true;
 }));
 
+// Phone-only: check an app that is already installed (Android app build only)
+const Native = window.Capacitor?.isNativePlatform?.() ? window.Capacitor.Plugins.InstalledApps : null;
+if (Native) {
+  $("phoneBox").hidden = false;
+  $("getApp").hidden = true;
+  let apps = [];
+  const render = () => {
+    const q = $("appSearch").value.toLowerCase();
+    $("appList").innerHTML = apps
+      .filter((a) => !q || a.label.toLowerCase().includes(q) || a.packageName.includes(q))
+      .map((a) => `<li><button data-p="${a.packageName}"><strong>${a.label.replace(/</g, "&lt;")}</strong><span>${a.packageName}, v${a.versionCode}, ${(a.size / 1048576).toFixed(1)} MB${a.split ? ", split app (base APK checked)" : ""}</span></button></li>`)
+      .join("");
+  };
+  $("pickInstalled").addEventListener("click", async () => {
+    $("pickInstalled").textContent = "Loading installed apps...";
+    try {
+      apps = (await Native.listApps()).apps.sort((a, b) => a.label.localeCompare(b.label));
+      $("appSearch").hidden = false; render();
+      $("pickInstalled").textContent = `${apps.length} apps found. Tap one to check it`;
+    } catch (e) { $("pickInstalled").textContent = "Could not list apps: " + e.message; }
+  });
+  $("appSearch").addEventListener("input", render);
+  $("appList").addEventListener("click", async (e) => {
+    const b = e.target.closest("button[data-p]");
+    if (!b) return;
+    b.querySelector("span").textContent = "Reading APK...";
+    try {
+      const { data } = await Native.readApk({ packageName: b.dataset.p });
+      const bin = atob(data), u8 = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+      await loadBuffer(u8.buffer, b.dataset.p + ".apk");
+      $("appList").innerHTML = ""; $("appSearch").hidden = true;
+      $("pickInstalled").textContent = "Check another installed app";
+      $("gateTitle").scrollIntoView({ behavior: "smooth" });
+    } catch (err) { b.querySelector("span").textContent = "Could not read it: " + err.message; }
+  });
+}
+
 boot().catch((e) => { $("chainStatus").textContent = "Chain failed to start: " + e.message; });

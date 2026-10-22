@@ -15,7 +15,10 @@
     <h1>APK Gate</h1>
     <p>An Android app is installed only when enough independent builders agree on it, on a blockchain.</p>
   </div>
-  <div class="chain" id="chainStatus">Starting local chain...</div>
+  <div class="side">
+    <a class="getapp" id="getApp" href="download/APK-Gate.apk" download>Download the Android app (3.3 MB)</a>
+    <div class="chain" id="chainStatus">Starting local chain...</div>
+  </div>
 </header>
 
 <main>
@@ -27,6 +30,12 @@
       <span class="drop-sub">The file is read in your browser only. Nothing is uploaded.</span>
     </label>
     <button class="link" id="useDemo">Use the demo APK instead</button>
+
+    <div class="phone" id="phoneBox" hidden>
+      <button class="primary" id="pickInstalled">Check an app installed on this phone</button>
+      <input type="search" id="appSearch" placeholder="Search installed apps" aria-label="Search installed apps" hidden>
+      <ul class="applist" id="appList"></ul>
+    </div>
 
     <dl class="facts" id="facts" hidden>
       <div><dt>Package</dt><dd id="fPkg"></dd></div>
